@@ -1,8 +1,9 @@
 import 'babel-polyfill/dist/polyfill';
 import SpotifyWebApi from 'spotify-web-api-js';
 import '../scss/index.scss';
-import renderImages from './renderImages';
 import spotifyLogin from './spotifyLogin';
+import getMyFavs from './getMyFavs';
+import getPlaylist from './getPlaylist';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -15,27 +16,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const spotifyApi = new SpotifyWebApi();
   spotifyApi.setAccessToken(accessToken);
 
+  const input = document.getElementById('in');
+  const buttonPlaylist = document.getElementById('playlist');
+  // const buttonUsersFavs = document.getElementById('usersFavs');
+  const buttonMyFavs = document.getElementById('myFavs');
 
-  spotifyApi.getMySavedTracks({
-    limit: 50,
-  }, (error, tracks) => {
-    if (error) {
-      console.error(error);
-      return;
-    }
 
-    renderImages(tracks.items);
-
+  buttonPlaylist.addEventListener('click', () => {
+    getPlaylist(spotifyApi, input.value);
   });
 
-  // // https://open.spotify.com/playlist/37i9dQZF1DX0SM0LYsmbMT
-  // spotifyApi.getPlaylist('4cGCe3TS5uACllWLeHsHRT', (error, playlist) => {
-  //   if (error) {
-  //     console.error(error);
-  //     return;
-  //   }
-  //
-  //   renderImages(playlist.tracks.items);
+  // buttonUsersFavs.addEventListener('click', () => {
+  //   getUserFavs(spotifyApi, input.value);
   // });
 
+  buttonMyFavs.addEventListener('click', () => {
+    getMyFavs(spotifyApi);
+  });
 });

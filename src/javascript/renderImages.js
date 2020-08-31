@@ -1,11 +1,15 @@
 const renderImages = (items) => {
-  const images = items.map(({ track }) => (
-    track.album.images[1].url
-  ));
+  const images = items
+    .map(({ track }) => (
+      track.album.images[1].url
+    ))
+    .filter((value, index, self) => (
+      self.indexOf(value) === index
+    ));
 
   const canvas = document.querySelector('canvas');
   const context = canvas.getContext('2d');
-  canvas.width = (160 + 40) * items.length;
+  canvas.width = (160 + 40) * images.length;
   canvas.height = 160;
 
   context.fillStyle = '#000000';
